@@ -12,6 +12,8 @@ Daniel Macrinici: responsible for initialising the main window, setting up the g
 
 Toloconnicov Valeria: modified the Windows Procedure; added buttons, menu.
 
+Nikita Karaghenov: Worked on the implementation of the winning and full board events, and game reseting function
+
 
 Windows Programming 5th laboratory work ( TeamWork)
 Daniel, Sveta, Nikita, Valeria
