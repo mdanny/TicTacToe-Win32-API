@@ -161,14 +161,14 @@ void DrawBoard(HDC hdc)
 	SelectObject(hdc, hPenOld);
 	DeleteObject(hLinePen);
 }
-
+//functions to draw X and O
 void DrawX(HDC hdc, int iX, int iY)
 {
 	HPEN hPenOld;
 	HPEN hLinePen;
 	COLORREF lineColor;
-	lineColor = RGB(71, 60, 139);
-	const int penWidth = 10;
+	lineColor = RGB(71, 60, 139);//color of X
+	const int penWidth = 10;//Width of X lines
 	hLinePen = CreatePen(PS_SOLID, penWidth, lineColor);
 	hPenOld = (HPEN)SelectObject(hdc, hLinePen);
 
@@ -187,12 +187,13 @@ void DrawX(HDC hdc, int iX, int iY)
 	DeleteObject(hLinePen);
 }
 
+//functions to draw O
 void DrawO(HDC hdc, int iX, int iY) {
 	HPEN hPenOld;
 	HPEN hLinePen;
 	COLORREF lineColor;
-	lineColor = RGB(255,165,79);
-	const int penWidth = 10;
+	lineColor = RGB(255,165,79); //color of O
+	const int penWidth = 10;// width of O
 	hLinePen = CreatePen(PS_SOLID, penWidth, lineColor);
 	hPenOld = (HPEN)SelectObject(hdc, hLinePen);
 
@@ -207,6 +208,24 @@ void DrawO(HDC hdc, int iX, int iY) {
 	SelectObject(hdc, hPenOld);
 	DeleteObject(hLinePen);
 }
+
+bool PlaceX(LPARAM lParam)
+{
+	int iPosX = LOWORD(lParam);
+	int iPosY = HIWORD(lParam);
+	int sqNrX = (iPosX/sqrSize);
+	int sqNrY = (iPosY/sqrSize);
+
+	if ((playerTurn == signX) &&
+		(sqNrX <= 3) && (sqNrY < 3) &&
+		(board[sqNrY][sqNrX]) == blank)
+	{
+		board[sqNrY][sqNrX] = signX;
+		return true;
+	}
+	return false;
+}
+
 
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
