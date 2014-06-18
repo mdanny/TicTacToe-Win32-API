@@ -3,6 +3,9 @@
 
 #include "stdafx.h"
 #include "TicTacToe.h"
+#include <string>
+#include <atlstr.h>
+enum EMarker {blank, signX, signO};
 
 #define MAX_LOADSTRING 100
 
