@@ -9,6 +9,9 @@ Svetlana Sumilin: responsible for drawing the figures X and O on the screen; and
 
 Daniel Macrinici: responsible for initialising the main window, setting up the global variables and also for drawing the Board on the screen.
 
+Toloconnicov Valeria: modified the Windows Procedure; added buttons, menu.
+
+
 Windows Programming 5th laboratory work ( TeamWork)
 Daniel, Sveta, Nichita, Valeria
 2014
