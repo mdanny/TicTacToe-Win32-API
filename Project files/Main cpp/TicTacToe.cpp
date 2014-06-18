@@ -162,6 +162,52 @@ void DrawBoard(HDC hdc)
 	DeleteObject(hLinePen);
 }
 
+void DrawX(HDC hdc, int iX, int iY)
+{
+	HPEN hPenOld;
+	HPEN hLinePen;
+	COLORREF lineColor;
+	lineColor = RGB(71, 60, 139);
+	const int penWidth = 10;
+	hLinePen = CreatePen(PS_SOLID, penWidth, lineColor);
+	hPenOld = (HPEN)SelectObject(hdc, hLinePen);
+
+	// Get bounds
+	const int bottomX	= iX*sqrSize + 2*penWidth;
+	const int topX	= (iX + 1)*sqrSize - 2*penWidth;
+	const int bottomY	= iY*sqrSize + 2*penWidth;
+	const int topY	= (iY + 1)*sqrSize - 2*penWidth;
+
+	MoveToEx(hdc, bottomX, bottomY, NULL);
+	LineTo(hdc, topX, topY);
+	MoveToEx(hdc, bottomX, topY, NULL); 
+	LineTo(hdc, topX, bottomY);
+
+	SelectObject(hdc, hPenOld);
+	DeleteObject(hLinePen);
+}
+
+void DrawO(HDC hdc, int iX, int iY) {
+	HPEN hPenOld;
+	HPEN hLinePen;
+	COLORREF lineColor;
+	lineColor = RGB(255,165,79);
+	const int penWidth = 10;
+	hLinePen = CreatePen(PS_SOLID, penWidth, lineColor);
+	hPenOld = (HPEN)SelectObject(hdc, hLinePen);
+
+	// Get bounds
+	const int bottomX	= iX*sqrSize + 2*penWidth;
+	const int topX	= (iX + 1)*sqrSize - 2*penWidth;
+	const int bottomY	= iY*sqrSize + 2*penWidth;
+	const int topY	= (iY + 1)*sqrSize - 2*penWidth;
+
+	Arc(hdc, bottomX, bottomY, topX, topY, 0, 0, 0, 0);
+
+	SelectObject(hdc, hPenOld);
+	DeleteObject(hLinePen);
+}
+
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
