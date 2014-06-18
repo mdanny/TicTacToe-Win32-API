@@ -1,8 +1,13 @@
 TicTacToe-Win32-API
 ===================
 
-Welcome team, let’s head to work because we have little time and (little?) big motivation :)
-haoi
+Team tasks
+===================
+
+
+Toloconnicov Valeria: modified the Windows Procedure; added buttons, menu.
+
+
 Windows Programming 5th laboratory work ( TeamWork)
 Daniel, Sveta, Nikita, Valeria
 2014
