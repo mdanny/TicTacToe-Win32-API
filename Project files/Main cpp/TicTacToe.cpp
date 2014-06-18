@@ -7,15 +7,28 @@
 #define MAX_LOADSTRING 100
 
 // Global Variables:
-HINSTANCE hInst;								// current instance
-TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
+HINSTANCE hInst;					// current instance
+HINSTANCE g_hInst;					// another instance
+HINSTANCE hInstance;
+TCHAR szTitle[MAX_LOADSTRING];				// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+EMarker playerTurn = signX;
+EMarker board[3][3] =
+	{{blank, blank, blank},
+	{blank, blank, blank},
+	{blank, blank, blank}};
+const int sqrSize = 200; 				// size of our cell
+int counterX=0;
+int counterO=0; 					//count won games
+CString myString;
+HWND label1, label2;					//handler for the labels
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -54,8 +67,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	return (int) msg.wParam;
 }
-
-
 
 //
 //  FUNCTION: MyRegisterClass()
@@ -119,6 +130,33 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
    return TRUE;
+}
+
+//  FUNCTION: DrawBoard
+
+void DrawBoard(HDC hdc)
+{
+	HPEN hPenOld;
+	// Draw the board lines
+	HPEN hLinePen;
+	COLORREF lineColor;
+	lineColor = RGB(0, 0, 0);
+	hLinePen = CreatePen(PS_SOLID, 7, lineColor);
+	hPenOld = (HPEN)SelectObject(hdc, hLinePen);
+
+	// Draw two vertical lines
+	for (int iX = sqrSize; iX < 3*sqrSize; iX += sqrSize) {
+		MoveToEx(hdc, iX, 0, NULL);
+		LineTo(hdc, iX, 3*sqrSize);
+	}
+	// Draw two horizontal lines
+	for (int iY = sqrSize; iY < 3*sqrSize; iY += sqrSize) {
+		MoveToEx(hdc, 0, iY, NULL);
+		LineTo(hdc, 3*sqrSize, iY);
+	}
+
+	SelectObject(hdc, hPenOld);
+	DeleteObject(hLinePen);
 }
 
 //
