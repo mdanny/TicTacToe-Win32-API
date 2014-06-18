@@ -133,20 +133,51 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int wmId, wmEvent;
+	int menuId, menuEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
 
 	switch (message)
 	{
+	case WM_LBUTTONDOWN:
+		{
+			bool bValidMove = PlaceX(lParam);
+			if (bValidMove) {
+				playerTurn = signO;
+			} else {
+				::MessageBox(hWnd, _T("It's O Turn!"), _T("Warning"), MB_OK);
+			}
+			// Repaint the window after the update
+			InvalidateRect(hWnd, 0, TRUE);
+		    break;
+		}
+
+	case WM_RBUTTONDOWN:
+		{
+			bool bValidMove = PlaceO(lParam);
+			if (bValidMove) {
+				playerTurn = signX;
+			} else {
+				::MessageBox(hWnd, _T("It's X Turn!"), _T("Warning"), MB_OK);
+			}
+			// Repaint the window after the update
+			InvalidateRect(hWnd, 0, TRUE);
+			break;
+		}
+
 	case WM_COMMAND:
-		wmId    = LOWORD(wParam);
-		wmEvent = HIWORD(wParam);
+		menuId    = LOWORD(wParam);
+		menuEvent = HIWORD(wParam);
 		// Parse the menu selections:
-		switch (wmId)
+		switch (menuId)
 		{
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			break;
+		case IDM_NEW_GAME:
+			ResetGame();
+			// Repaint the window after the update
+			InvalidateRect(hWnd, 0, TRUE);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
@@ -155,11 +186,59 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 		break;
+
+	case WM_CREATE:
+		label1 = CreateWindow(L"Static", L"X", WS_CHILD | WS_VISIBLE, 0, 620, 20 ,25,hWnd,0, g_hInst, 0);
+		label2 = CreateWindow(L"Static", L"O", WS_CHILD | WS_VISIBLE, 40, 620, 20 ,25,hWnd,0, g_hInst, 0);
+	
 	case WM_PAINT:
+		{
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO: Add any drawing code here...
+		// Draw the board lines
+		DrawBoard(hdc);
+
+		// Draw Xs and Os
+		for (int iX = 0; iX < 3; ++iX) {
+			for (int iY = 0; iY < 3; ++iY) {
+				if (board[iY][iX] == signX) {
+					DrawX(hdc, iX, iY);
+				} else if (board[iY][iX] == signO) {
+					DrawO(hdc, iX, iY);
+				}
+			}
+		}
+
+		// Check for end of game conditions
+		if (HasWon()) {
+			
+
+			if (playerTurn == signO) {
+				::MessageBox(hWnd, _T("X Won!"), _T("Another Round?"), MB_OK);
+				counterX+= 1;
+				myString.Format(_T("%d"), counterX);
+				SetWindowText(label1, myString);
+				
+			} else {
+				::MessageBox(hWnd, _T("O Won!"), _T("Another Round?"), MB_OK);
+				counterO+= 1;
+				myString.Format(_T("%d"), counterO);
+				SetWindowText(label2, myString);
+			}
+			ResetGame();
+			InvalidateRect(hWnd, 0, TRUE);
+		} else {
+			// If there is no win, check for a draw
+			if (IsBoardFull()) {
+				::MessageBox(hWnd, _T("It's A Draw!"), _T("Another Round?"), MB_OK);
+				ResetGame();
+				// Repaint the window after the update
+				InvalidateRect(hWnd, 0, TRUE);
+			}
+		}
 		EndPaint(hWnd, &ps);
+		}
 		break;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
