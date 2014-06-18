@@ -1,8 +1,12 @@
 TicTacToe-Win32-API
 ===================
 
-Welcome team, let’s head to work because we have little time and (little?) big motivation :)
+Team tasks
+===================
+
+Daniel Macrinici: responsible for initialising the main window, setting up the global variables and also for drawing the Board on the screen.
+
 
 Windows Programming 5th laboratory work ( TeamWork)
-Daniel, Sveta, Nichita, Valeria
+Daniel, Sveta, Nikita, Valeria
 2014
