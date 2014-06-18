@@ -1,7 +1,8 @@
 TicTacToe-Win32-API
 ===================
 
-Welcome team, let’s head to work because we have little time and (little?) big motivation :)
+
+Svetlana Sumilin: responsible for drawing the figures X and O on the screen; and of placing them on the screen (in one of 9 cells depending on indexes). 
 
 Windows Programming 5th laboratory work ( TeamWork)
 Daniel, Sveta, Nichita, Valeria
